@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:shtushnyi/widgets/shtushnyi_add_form.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final List<Marker> _markers = [];
 
-  void onMapTap(LatLng location) {
+  void addMarker(LatLng location) {
     setState(() {
       _markers.add(Marker(
           point: LatLng(location.latitude, location.longitude),
@@ -21,31 +22,24 @@ class _HomeScreenState extends State<HomeScreen> {
           builder: (context) => GestureDetector(
                 onTap: () {
                   showModalBottomSheet(
-                      backgroundColor: Colors.transparent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
                       context: context,
-                      builder: (ctx) => ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                                topRight: Radius.circular(16),
-                                topLeft: Radius.circular(16)),
-                            child: Container(
-                              color: Colors.white,
-                              height: 200,
-                              child: Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  ClipRRect(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(6)),
-                                      child: Container(
-                                        height: 6,
-                                        width: 50,
-                                        color: Colors.grey,
-                                      ))
-                                ],
+                      builder: (ctx) => Column(
+                            children: [
+                              const SizedBox(
+                                height: 8,
                               ),
-                            ),
+                              ClipRRect(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(6)),
+                                  child: Container(
+                                    height: 6,
+                                    width: 50,
+                                    color: Colors.grey,
+                                  ))
+                            ],
                           ));
                 },
                 child: const CircleAvatar(
@@ -58,6 +52,40 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void onMapTap(LatLng location) {
+    showModalBottomSheet(
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        builder: (ctx) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Column(children: [
+                const SizedBox(
+                  height: 8,
+                ),
+                ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(6)),
+                    child: Container(
+                      height: 6,
+                      width: 50,
+                      color: Colors.grey,
+                    )),
+                const SizedBox(
+                  height: 8,
+                ),
+                ShtushnyiAddForm(
+                  action: (
+                      {required title, required comment, required rating}) {
+                    print('$title, $comment, $rating');
+                    addMarker(location);
+                    Navigator.pop(context);
+                  },
+                ),
+              ]),
+            ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          'Штушный шегіп ал',
+          'Штушный is lifestyle',
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.transparent,

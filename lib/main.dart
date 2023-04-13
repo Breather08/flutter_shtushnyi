@@ -7,12 +7,12 @@ import 'config/routes.dart';
 void main() {
   runApp(MultiProvider(
     providers: appProviders,
-    child: const ShopApp(),
+    child: const ShtushnyiApp(),
   ));
 }
 
-class ShopApp extends StatelessWidget {
-  const ShopApp({Key? key}) : super(key: key);
+class ShtushnyiApp extends StatelessWidget {
+  const ShtushnyiApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class ShopApp extends StatelessWidget {
 
     return MaterialApp(
       scaffoldMessengerKey: scaffoldKey,
-      title: 'Shop App',
+      title: 'Shtushnyi App',
       routes: AppRouter().routes,
       initialRoute: AppRouter.home,
       theme: ThemeData(
